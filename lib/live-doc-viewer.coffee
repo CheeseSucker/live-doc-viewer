@@ -71,7 +71,7 @@ module.exports = LiveDocViewer =
                 nonWordCharacters = atom.config.get('editor.nonWordCharacters', scope: grammar.scope)
                 wordOptions = {allowPrevious: false, wordRegex: new RegExp("[\\w\\.\\_]+", "g")}
                 word = editor.getWordUnderCursor(wordOptions)
-            cmd = "pydocc"
+            cmd = "pydoc"
             args = [word]
         else
             wordOptions = {allowPrevious: false, includeNonWordCharacters: false}

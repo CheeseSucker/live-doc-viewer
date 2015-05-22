@@ -2,7 +2,7 @@
   "name": "live-doc-viewer",
   "main": "./lib/live-doc-viewer",
   "version": "0.1.0",
-  "description": "Read documentation for word under text cursor.",
+  "description": "Fetch documentation for word under cursor automatically.",
   "keywords": [
       "documentation", "man pages", "pydoc", "python", "programming"
   ],

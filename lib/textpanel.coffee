@@ -11,13 +11,13 @@ class TextPanel
 
         # Allow panel resizing
         @resizeHandle = document.createElement('div')
-        @resizeHandle.classList.add('man-view-resize-handle')
+        @resizeHandle.classList.add('doc-view-resize-handle')
         @element.appendChild(@resizeHandle)
         $(@resizeHandle).on 'mousedown', (e) => @resizeStarted(e)
 
         # Create text container
         @text = document.createElement('pre')
-        @text.textContent = "No man page loaded."
+        @text.textContent = "Type or select a word to lookup documentation."
         @text.classList.add('text-container')
         @element.appendChild(@text)
 
