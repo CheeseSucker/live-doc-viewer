@@ -2,7 +2,7 @@
 'context-menu':
   'atom-text-editor': [
     {
-      'label': 'Toggle live-doc-viewer'
+      'label': 'Toggle documentation panel'
       'command': 'live-doc-viewer:toggle'
     }
   ]
@@ -10,7 +10,7 @@
   {
     'label': 'Packages'
     'submenu': [
-      'label': 'live-doc-viewer'
+      'label': 'Live doc viewer'
       'submenu': [
         {
           'label': 'Toggle'

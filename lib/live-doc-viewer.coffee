@@ -8,7 +8,6 @@ module.exports = LiveDocViewer =
     subscriptions: null
 
     activate: (state) ->
-        console.log state
         @textPanel = new TextPanel(state.textPanel)
         @modalPanel = atom.workspace.addBottomPanel(item: @textPanel.getElement(), visible: state.visible)
         @currentWord = null
@@ -52,9 +51,14 @@ module.exports = LiveDocViewer =
                 @updateMessage()
             ), 100)
 
+    # Escape input for regular expressions.
+    # See http://stackoverflow.com/a/6969486
     escapeRegExp: (str) ->
         return str.replace(/[\-\[\]\/\{\}\(\)\*\+\?\.\\\^\$\|]/g, "\\$&");
 
+    ###
+    Get command to run based on selected word and grammar.
+    ###
     getCommand: ->
         editor = atom.workspace.getActiveTextEditor()
         if not editor
@@ -67,7 +71,7 @@ module.exports = LiveDocViewer =
                 nonWordCharacters = atom.config.get('editor.nonWordCharacters', scope: grammar.scope)
                 wordOptions = {allowPrevious: false, wordRegex: new RegExp("[\\w\\.\\_]+", "g")}
                 word = editor.getWordUnderCursor(wordOptions)
-            cmd = "pydoc"
+            cmd = "pydocc"
             args = [word]
         else
             wordOptions = {allowPrevious: false, includeNonWordCharacters: false}
@@ -77,6 +81,10 @@ module.exports = LiveDocViewer =
 
         return [cmd, args, word]
 
+
+    ###
+    Launch program and send output to TextPanel.
+    ###
     updateMessage: ->
         [cmd, args, word] = @getCommand()
         if @child or not word or word == @currentWord
@@ -88,6 +96,7 @@ module.exports = LiveDocViewer =
         @child = child_process.spawn(cmd, args).on('error', (error) =>
             @textPanel.setText "Failed to launch '" + cmd + "'. Make sure it is installed and in your path."
         )
+
         @child.stdout.on('data', (buffer) =>
             @content += buffer.toString()
         )
@@ -95,7 +104,7 @@ module.exports = LiveDocViewer =
             @content += buffer.toString()
         )
 
-        # Update panel text if man page was found
+        # Update panel text if documentation was found
         @child.on('close', (exitCode) =>
             if exitCode == 0
                 @textPanel.setText @content
