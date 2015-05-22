@@ -1,10 +1,14 @@
 {
   "name": "live-doc-viewer",
   "main": "./lib/live-doc-viewer",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "description": "Fetch documentation for word under cursor automatically.",
   "keywords": [
-      "documentation", "man pages", "pydoc", "python", "programming"
+    "documentation",
+    "man pages",
+    "pydoc",
+    "python",
+    "programming"
   ],
   "repository": "https://github.com/cheesesucker/live-doc-viewer",
   "license": "MIT",
@@ -12,6 +16,6 @@
     "atom": ">=0.174.0 <2.0.0"
   },
   "dependencies": {
-      "jquery": "^2"
+    "jquery": "^2"
   }
 }
