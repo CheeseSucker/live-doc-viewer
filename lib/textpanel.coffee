@@ -3,8 +3,6 @@ $ = require 'jquery'
 module.exports =
 class TextPanel
     constructor: (serializedState) ->
-        console.log serializedState
-
         # Create root element
         @element = document.createElement('div')
         @element.classList.add('live-doc-viewer')
@@ -23,7 +21,6 @@ class TextPanel
 
         height = serializedState?.height
         $(@element).height(height) if height?
-
 
 
     getElement: ->

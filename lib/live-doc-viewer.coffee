@@ -7,11 +7,81 @@ module.exports = LiveDocViewer =
     modalPanel: null
     subscriptions: null
 
+    # TODO: Create a custom dialog to set program options.
+    # Atom does not have a good way to edit arrays of objects in the settings
+    # panel, so I've been forced to use several separate objects instead.
+    config:
+        delay:
+            description: 'Number of milliseconds to wait before updating text.'
+            default: 200
+            minimum: 0
+        command1:
+            type: 'object'
+            properties:
+                grammar:
+                    type: 'string'
+                    default: 'Any'
+                program:
+                    type: 'string'
+                    default: 'man'
+                program_arguments:
+                    type: 'string'
+                    default: '--pager=cat --sections=3,2,1,8 {WORD}'
+        command2:
+            type: 'object'
+            properties:
+                grammar:
+                    type: 'string'
+                    default: 'Python'
+                program:
+                    type: 'string'
+                    default: 'pydoc'
+                program_arguments:
+                    type: 'string'
+                    default: '{WORD}'
+        command3:
+            type: 'object'
+            properties:
+                grammar:
+                    type: 'string'
+                    default: ''
+                program:
+                    type: 'string'
+                    default: ''
+                program_arguments:
+                    type: 'string'
+                    default: ''
+        command4:
+            type: 'object'
+            properties:
+                grammar:
+                    type: 'string'
+                    default: ''
+                program:
+                    type: 'string'
+                    default: ''
+                program_arguments:
+                    type: 'string'
+                    default: ''
+        command5:
+            type: 'object'
+            properties:
+                grammar:
+                    type: 'string'
+                    default: ''
+                program:
+                    type: 'string'
+                    default: ''
+                program_arguments:
+                    type: 'string'
+                    default: ''
+
     activate: (state) ->
         @textPanel = new TextPanel(state.textPanel)
         @modalPanel = atom.workspace.addBottomPanel(item: @textPanel.getElement(), visible: state.visible)
         @currentWord = null
         @content = ""
+        @loadConfig()
 
         # Events subscribed to in atom's system can be easily cleaned up with a CompositeDisposable
         @subscriptions = new CompositeDisposable
@@ -23,6 +93,8 @@ module.exports = LiveDocViewer =
                 @cursorChanged())
             editor.onDidChangeSelectionRange((event) =>
                 @cursorChanged())
+        @subscriptions.add atom.config.observe("live-doc-viewer", (config) =>
+                @loadConfig())
 
     deactivate: ->
         @modalPanel.destroy()
@@ -39,6 +111,29 @@ module.exports = LiveDocViewer =
         else
             @modalPanel.show()
 
+    loadConfig: ->
+        @updateDelay = atom.config.get("live-doc-viewer.delay")
+        @loadCommands()
+
+    loadCommands: ->
+        @commands = {}
+        for num in [5..1]
+            command = atom.config.get("live-doc-viewer.command#{num}")
+            if not command.grammar or not command.program or not command.program_arguments
+                continue
+            @commands[command.grammar] = {
+                "program": command.program
+                "arguments": command.program_arguments
+            }
+
+    # FIXME: Respect quotes and escapes
+    createArgs: (args, word) ->
+        args = args.split(" ")
+        for arg, i in args
+            args[i] = arg.replace("{WORD}", word)
+        return args
+
+
     cursorChanged: (event) ->
         if @modalPanel.isVisible()
             # Use a short delay before looking up documentation.
@@ -49,7 +144,7 @@ module.exports = LiveDocViewer =
             @timer = setTimeout((() =>
                 @timer = null
                 @updateMessage()
-            ), 100)
+            ), @updateDelay)
 
     # Escape input for regular expressions.
     # See http://stackoverflow.com/a/6969486
@@ -65,21 +160,26 @@ module.exports = LiveDocViewer =
             return [null, null, null]
         grammar = editor.getGrammar()
 
-        if grammar.name == "Python"
-            word = editor.getSelectedText()
-            if not word
-                nonWordCharacters = atom.config.get('editor.nonWordCharacters', scope: grammar.scope)
-                wordOptions = {allowPrevious: false, wordRegex: new RegExp("[\\w\\.\\_]+", "g")}
-                word = editor.getWordUnderCursor(wordOptions)
-            cmd = "pydoc"
-            args = [word]
-        else
-            wordOptions = {allowPrevious: false, includeNonWordCharacters: false}
-            word = editor?.getWordUnderCursor(wordOptions)
-            cmd = "man"
-            args = ["--pager=cat", "--sections=3,2,1,8", word]
+        # Find the word to look up
+        word = editor.getSelectedText()
+        if not word
+            nonWordCharacters = atom.config.get('editor.nonWordCharacters', scope: grammar.scope)
+            wordOptions = {allowPrevious: false, wordRegex: new RegExp("[\\w\\.\\_]+", "g")}
+            word = editor.getWordUnderCursor(wordOptions)
 
-        return [cmd, args, word]
+        # Select command from configuration
+        if grammar.name of @commands
+            cmd = @commands[grammar.name].program
+            args = @commands[grammar.name].arguments
+        else if "Any" of @commands
+            cmd = @commands["Any"].program
+            args = @commands["Any"].arguments
+        else
+            # Use default
+            cmd = "man"
+            args = "--pager=cat --sections=3,2,1,8 {WORD}"
+
+        return [cmd, @createArgs(args, word), word]
 
 
     ###
