@@ -112,8 +112,27 @@ module.exports = LiveDocViewer =
             @modalPanel.show()
 
     loadConfig: ->
+        # Workaround for atom/settings-view/issues/518
+        return if @loadingConfig
+        @fixCommands()
+
         @updateDelay = atom.config.get("live-doc-viewer.delay")
         @loadCommands()
+
+    # Remove this when the relevant issue is fixed and published.
+    fixCommands: ->
+        @loadingConfig = true
+        for num in [5..1]
+            command = atom.config.get("live-doc-viewer.command#{num}")
+            if not command.grammar
+                command.grammar = ""
+            if not command.program
+                command.program = ""
+            if not command.program_arguments
+                command.program_arguments = ""
+            atom.config.set("live-doc-viewer.command#{num}", command)
+        @loadingConfig = false
+
 
     loadCommands: ->
         @commands = {}
