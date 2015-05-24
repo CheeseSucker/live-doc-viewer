@@ -1,3 +1,7 @@
+## 0.1.4
+ - Show a better welcome message in the text panel
+ - Added a workaround for https://github.com/atom/settings-view/issues/518
+
 ## 0.1.3
  - Added ruby (albeit without parsing the ouput correctly)
 
