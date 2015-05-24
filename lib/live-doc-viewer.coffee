@@ -118,6 +118,7 @@ module.exports = LiveDocViewer =
 
         @updateDelay = atom.config.get("live-doc-viewer.delay")
         @loadCommands()
+        @textPanel.showWelcomeText(@commands)
 
     # Remove this when the relevant issue is fixed and published.
     fixCommands: ->

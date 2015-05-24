@@ -15,7 +15,6 @@ class TextPanel
 
         # Create text container
         @text = document.createElement('pre')
-        @text.textContent = "Type or select a word to lookup documentation."
         @text.classList.add('text-container')
         @element.appendChild(@text)
 
@@ -37,6 +36,14 @@ class TextPanel
     setText: (text) ->
         @text.innerHTML = text;
 
+    showWelcomeText: (commands) ->
+        console.log(commands)
+        message = "Type or select a word to lookup documentation.\n\n"
+        message += "Configured programs:\n"
+        for grammar, cmd of commands
+            message += "  - #{grammar}: \"#{cmd.program}\" #{cmd.arguments}\n"
+        message += "\nAdditional programs can be configured in the settings panel."
+        @setText message
 
     # Resize code shamelessly stolen from atom-tree-view
     resizeStarted: =>
