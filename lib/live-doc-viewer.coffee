@@ -44,13 +44,13 @@ module.exports = LiveDocViewer =
             properties:
                 grammar:
                     type: 'string'
-                    default: ''
+                    default: 'Ruby'
                 program:
                     type: 'string'
-                    default: ''
+                    default: 'ri'
                 program_arguments:
                     type: 'string'
-                    default: ''
+                    default: '-T --format=bs {WORD}'
         command4:
             type: 'object'
             properties:
