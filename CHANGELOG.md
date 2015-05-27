@@ -1,3 +1,6 @@
+## 1.0.6
+ - Removed a call to console.log
+
 ## 1.0.5
  - Fixed config type definition for 'delay'
  - Fixed cursor on windows
