@@ -12,6 +12,7 @@ module.exports = LiveDocViewer =
     # panel, so I've been forced to use several separate objects instead.
     config:
         delay:
+            type: 'integer'
             description: 'Number of milliseconds to wait before updating text.'
             default: 200
             minimum: 0
