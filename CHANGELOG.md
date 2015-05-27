@@ -1,4 +1,8 @@
-## 0.1.4
+## 1.0.5
+ - Fixed config type definition for 'delay'
+ - Fixed cursor on windows
+
+## 1.0.4
  - Show a better welcome message in the text panel
  - Added a workaround for https://github.com/atom/settings-view/issues/518
 
