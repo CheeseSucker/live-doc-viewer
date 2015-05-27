@@ -37,7 +37,6 @@ class TextPanel
         @text.innerHTML = text;
 
     showWelcomeText: (commands) ->
-        console.log(commands)
         message = "Type or select a word to lookup documentation.\n\n"
         message += "Configured programs:\n"
         for grammar, cmd of commands
