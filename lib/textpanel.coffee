@@ -34,7 +34,7 @@ class TextPanel
         @element.remove()
 
     setText: (text) ->
-        @text.innerHTML = text;
+        @text.innerText = text;
 
     showWelcomeText: (commands) ->
         message = "Type or select a word to lookup documentation.\n\n"
