@@ -1,3 +1,8 @@
+## 1.0.7
+ - Fixed issue where text was displayed as HTML (PR #2, thanks to @Cyxo)
+ - Removed buggy resize handle in bottom right of panel
+ - Updated jQuery to 3.4.1
+
 ## 1.0.6
  - Removed a call to console.log
 
