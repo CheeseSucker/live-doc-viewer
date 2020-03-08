@@ -1,7 +1,7 @@
 {
   "name": "live-doc-viewer",
   "main": "./lib/live-doc-viewer",
-  "version": "1.0.7",
+  "version": "1.1.0",
   "description": "Fetch documentation for word under cursor automatically. Can use any command line program similar to 'pydoc' or 'man'.",
   "keywords": [
     "documentation",
