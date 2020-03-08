@@ -9,25 +9,39 @@
     height: 200px;
     overflow: auto;
     white-space: nowrap;
-    // resize: vertical;
-}
 
-.live-doc-viewer pre {
-    padding: 0px;
-    min-height: 100%;
-}
+    &__status-bar {
+        background-color: @tool-panel-background-color;
+        color: @text-color-info;
+        opacity: 0.8;
+        position: absolute;
+        bottom: 0;
+        right: 0;
+        padding: 0.3em 1em;
 
-.doc-view-resize-handle {
-    height: 8px;
-    position: absolute;
-    left: 0;
-    right: 0;
-    cursor: row-resize;
-    z-index: 3;
+        &:empty {
+            visibility: hidden;
+        }
+    }
+
+    &__text-panel {
+        padding: 0px;
+        min-height: 100%;
+    }
+
+
+    &__resize-handle {
+        height: 8px;
+        position: absolute;
+        left: 0;
+        right: 0;
+        cursor: row-resize;
+        z-index: 3;
+    }
 }
 
 .platform-win32 {
-    .doc-view-resize-handle {
+    .live-doc-viewer__resize-handle {
         cursor: ns-resize;
     }
 }
