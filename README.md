@@ -4,4 +4,6 @@ Automatically fetches documentation for word under text cursor. Updated as you t
 
 By default it uses 'pydoc3' to look up documentation for python, 'ri' for ruby, and 'man' for everything else. Other programs can be set up in the atom's settings dialog.
 
-![Screencast](http://zippy.gfycat.com/NaturalAgonizingBlueshark.gif)
+Slightly outdated screencast:
+
+![Screencast](https://raw.githubusercontent.com/CheeseSucker/live-doc-viewer/documentation-files/screencast-1_0.gif)
