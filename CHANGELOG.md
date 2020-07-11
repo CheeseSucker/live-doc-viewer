@@ -1,3 +1,6 @@
+## 1.2.0
+  - Fixed [#4](https://github.com/CheeseSucker/live-doc-viewer/issues/4): Use `pydoc3` instead of `pydoc` by default. Thanks to [@rcj4747](https://github.com/rcj4747).
+
 ## 1.1.0
  - Command arguments are now properly tokenized (using string-argv module).
    This means that it is now possible to use commands such as `man --pager=cat "this argument has spaces: {WORD}"`
